@@ -1,0 +1,48 @@
+﻿@model RentalKendaraan_20180140021.Models.Peminjaman
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Peminjaman</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TglPeminjaman)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TglPeminjaman)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Biaya)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Biaya)
+        </dd>
+        <dt>
+            @Html.DisplayName("Nama Customer")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdCustomerNavigation.IdCustomer)
+        </dd>
+        <dt>
+            @Html.DisplayName("Nama Jaminan")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdJaminanNavigation.IdJaminan)
+        </dd>
+        <dt>
+            @Html.DisplayName("Nama Kendaraan")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdKendaraanNavigation.IdKendaraan)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdPeminjaman">Ubah</a> |
+    <a asp-action="Index">Kembali</a>
+</div>

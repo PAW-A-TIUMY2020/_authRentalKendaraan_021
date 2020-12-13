@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using RentalKendaraan_20180140021.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace RentalKendaraan_20180140021
 {
@@ -34,13 +35,28 @@ namespace RentalKendaraan_20180140021
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDbContext<Models.RentalKendaraannContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddDefaultIdentity<IdentityUser>()
+                //.AddEntityFrameworkStores<Models.RentalKendaraannContext>
+            services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultUI()
+.AddEntityFrameworkStores<Models.RentalKendaraannContext>().AddDefaultTokenProviders();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("readonlypolicy",
+                    builder => builder.RequireRole("Admin", "Manager", "Kasir"));
+                options.AddPolicy("writepolicy",
+                    builder => builder.RequireRole("Admin", "Kasir"));
+                options.AddPolicy("editpolicy",
+                    builder => builder.RequireRole("Admin", "Kasir"));
+                options.AddPolicy("deletepolicy",
+                    builder => builder.RequireRole("Admin", "Kasir"));
+            });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
